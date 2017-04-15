@@ -2,6 +2,8 @@ package quaternary.getlost.item;
 
 
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -9,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -48,13 +51,27 @@ public class ItemWaypointBasic extends Item {
 		ItemStack thingInTheHand = player.getHeldItem(hand);
 		if(!player.canPlayerEdit(placePosition, facing, thingInTheHand)) return EnumActionResult.PASS;
 		
-		//disallow placing these on things like flowers and glass and stuff.
-		if(!w.getBlockState(bp.down()).isFullCube()) return EnumActionResult.PASS;
-		if(w.getBlockState(bp.down()).getMaterial().isReplaceable()) return EnumActionResult.PASS;
+		//some helpers for the below...
+		IBlockState targetState = w.getBlockState(placePosition);
+		Block targetBlock = targetState.getBlock();
+		IBlockState baseState = w.getBlockState(placePosition.down());
+		Material baseMaterial = baseState.getMaterial();
+		
+		//double check we're not replacing something that shouldn't be.
+		if(!targetBlock.isReplaceable(w, placePosition)) return EnumActionResult.PASS;
+		
+		//disallow placing these on things like flowers and plants and stuff.
+		if(!baseState.isFullCube()) return EnumActionResult.PASS;
+		if(baseMaterial == Material.PLANTS) return EnumActionResult.PASS;
 		
 		//we gucci fam lesgo
+		//place the waypoint
 		w.setBlockState(placePosition, ModBlocks.blockWaypointBasic.getDefaultState(), 3);
-		return EnumActionResult.PASS;
+		//shrink the stack
+		if(player.capabilities.isCreativeMode == false) thingInTheHand.shrink(1);
+		//thunk
+		w.playSound(null, placePosition, SoundType.WOOD.getPlaceSound(), SoundCategory.BLOCKS, 1f, 1f);
+		return EnumActionResult.SUCCESS;
 	} 
 	
 }
