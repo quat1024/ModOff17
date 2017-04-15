@@ -1,9 +1,11 @@
 package quaternary.getlost.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -11,10 +13,11 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import quaternary.getlost.GetLost;
+import quaternary.getlost.block.te.TeWaypointBasic;
 
 import java.util.Random;
 
-public class BlockWaypointBasic extends Block {
+public class BlockWaypointBasic extends Block implements ITileEntityProvider {
 	public BlockWaypointBasic() {
 		super(Material.WOOD);
 		
@@ -31,20 +34,21 @@ public class BlockWaypointBasic extends Block {
 	}
 	
 	@Override
+	public TileEntity createNewTileEntity(World w, int bla) {
+		return new TeWaypointBasic();
+	}
+	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(IBlockState s, World w, BlockPos bp, Random r) {
+		//shit temporary particle code
 		//todo make your own particle
 		//todo move this to tileentity; more particles \:D/
 		
 		//some indicator of time
-		float t = Minecraft.getMinecraft().getSystemTime() / 1000f;
+		//todo - this increases while paused. is it worth it to use player.ticksExisted?
+		//don't use whatever banners use - it causes tick lag and network latency to affect rendering
+		//which is obviously super silly
 		
-		double ang = t / 4;
-		double offX = 0.5 + Math.cos(ang) * 0.4;
-		double offZ = 0.5 + Math.sin(ang) * 0.4;
-		
-		
-		
-		w.spawnParticle(EnumParticleTypes.SMOKE_LARGE, true, bp.getX()+0.5, bp.getY() + 1, bp.getZ() + 0.5, offX/6, 0.05, offZ/6);
 	}
 }

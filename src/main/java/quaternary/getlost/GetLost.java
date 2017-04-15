@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import quaternary.getlost.block.ModBlocks;
+import quaternary.getlost.block.te.ModTes;
 import quaternary.getlost.item.ModItems;
 import quaternary.getlost.misc.GetLostCreativeTab;
 import quaternary.getlost.proxy.CommonProxy;
@@ -31,6 +32,7 @@ public class GetLost {
 		log.info("Oh man I am not good with computer please to help".toUpperCase());
 		
 		ModItems.doTheThing();
+		ModTes.doTheThing();
 		ModBlocks.doTheThing();
 	}
 	

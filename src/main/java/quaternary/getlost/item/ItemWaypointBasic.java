@@ -52,6 +52,8 @@ public class ItemWaypointBasic extends Item {
 		if(!player.canPlayerEdit(placePosition, facing, thingInTheHand)) return EnumActionResult.PASS;
 		
 		//some helpers for the below...
+		//TODO: move this to the block itself and just call it from here.
+		//less duplicated code (+ it will pop off)
 		IBlockState targetState = w.getBlockState(placePosition);
 		Block targetBlock = targetState.getBlock();
 		IBlockState baseState = w.getBlockState(placePosition.down());
@@ -61,6 +63,7 @@ public class ItemWaypointBasic extends Item {
 		if(!targetBlock.isReplaceable(w, placePosition)) return EnumActionResult.PASS;
 		
 		//disallow placing these on things like flowers and plants and stuff.
+		//it's a campfire, you idiot, who levitates those on top of flowers?!
 		if(!baseState.isFullCube()) return EnumActionResult.PASS;
 		if(baseMaterial == Material.PLANTS) return EnumActionResult.PASS;
 		
