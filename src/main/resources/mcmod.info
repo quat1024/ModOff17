@@ -1,14 +1,14 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "getlost",
+  "name": "Get Lost",
+  "description": "Who needs minimaps anyways? Immersive Navigation Utilities for the modern Minecrafter.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["quaternary"],
+  "credits": "Your mom. Big thanks to Shadowfacts's modding tutorial",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
