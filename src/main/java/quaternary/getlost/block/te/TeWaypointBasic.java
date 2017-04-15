@@ -3,28 +3,25 @@ package quaternary.getlost.block.te;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
+import quaternary.getlost.GetLost;
+import quaternary.getlost.particle.ParticleSmoke;
 
 import java.util.Random;
 
 public class TeWaypointBasic extends TileEntity implements ITickable {
 	
-	static Random randOffset;
-	
-	static {
-		randOffset = new Random();
-	}
-	
 	public void update() {
 		
-		randOffset.setSeed(pos.getX()*1232 + pos.getY()*1000 + pos.getZ()*2000);
-		float kindaRandomAngleOffset = randOffset.nextFloat()*6.28f;
-		
-		float t = kindaRandomAngleOffset + (world.getTotalWorldTime() / 50f);
-		
-		double offX = Math.cos(t) * 0.4;
-		double offZ = Math.sin(t) * 0.4;
-		
-		world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, true, pos.getX()+0.5, pos.getY() + 1, pos.getZ() + 0.5, offX/6, 0.05, offZ/6);
+		if(world.rand.nextInt(10) == 5) {
+			float offX = world.rand.nextFloat() * 0.1f - 0.05f;
+			float offZ = world.rand.nextFloat() * 0.1f - 0.05f;
+			
+			float initialvx = (world.rand.nextFloat() * 0.04f) - 0.02f;
+			float initialvy = (world.rand.nextFloat() * 0.04f) + 0.04f;
+			float initialvz = (world.rand.nextFloat() * 0.04f) - 0.02f;
+			
+			GetLost.proxy.spawnSmokeParticle(world, pos.getX() + offX + 0.5, pos.getY() + 1, pos.getZ() + offZ + 0.5, initialvx, initialvy, initialvz);
+		}
 	}
 	
 }

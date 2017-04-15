@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -31,6 +32,11 @@ public class BlockWaypointBasic extends Block implements ITileEntityProvider {
 	@Override
 	public boolean isFullCube(IBlockState whocares) {
 		return false;
+	}
+	
+	@Override
+	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos bp) {
+		return 15;
 	}
 	
 	@Override
