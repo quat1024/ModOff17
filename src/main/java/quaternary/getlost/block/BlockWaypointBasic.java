@@ -9,6 +9,9 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -20,6 +23,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import quaternary.getlost.GetLost;
 import quaternary.getlost.block.te.TeWaypointBasic;
+import quaternary.getlost.item.ModItems;
 
 import java.util.Random;
 
@@ -42,7 +46,22 @@ public class BlockWaypointBasic extends Block implements ITileEntityProvider {
 		//todo: config?
 	}
 	
+	public static boolean canBlockStay(World w, BlockPos bp) {
+		IBlockState downState = w.getBlockState(bp.down());
+		return downState.isFullCube() && downState.isOpaqueCube();
+	}
 	
+	@Override
+	public void neighborChanged(IBlockState state, World w, BlockPos bp, Block b, BlockPos frombp) {
+		if(!canBlockStay(w, bp)) {
+			dropBlockAsItem(w, bp, state, 0);
+			w.destroyBlock(bp, false);
+		}
+	}
+	
+	public Item getItemDropped(IBlockState state, Random rand, int fort) {
+		return ModItems.waypointBasic;
+	}
 	
 	@Override
 	public boolean isFullCube(IBlockState whocares) {
@@ -56,9 +75,22 @@ public class BlockWaypointBasic extends Block implements ITileEntityProvider {
 	
 	//todo: flint and steel.
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		worldIn.setBlockState(pos, state.withProperty(WELL_MADE_AND_LIT, !state.getValue(WELL_MADE_AND_LIT)));
-		return true;
+	public boolean onBlockActivated(World w, BlockPos bp, IBlockState state, EntityPlayer p, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if(state.getValue(WELL_MADE_AND_LIT)) {
+			if(p.getHeldItem(hand).getItem() == Items.WATER_BUCKET) {
+				if(!p.capabilities.isCreativeMode) p.setHeldItem(hand, new ItemStack(Items.BUCKET));
+				w.setBlockState(bp, getDefaultState().withProperty(WELL_MADE_AND_LIT, false), 3);
+				return true;
+			}
+		} else {
+			if(p.getHeldItem(hand).getItem() == Items.FLINT_AND_STEEL) {
+				if(!p.capabilities.isCreativeMode) p.getHeldItem(hand).attemptDamageItem(1, w.rand);
+				w.setBlockState(bp, getDefaultState().withProperty(WELL_MADE_AND_LIT, true), 3);
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	@Override
@@ -70,16 +102,13 @@ public class BlockWaypointBasic extends Block implements ITileEntityProvider {
 	
 	@Override
 	public void updateTick(World w, BlockPos bp, IBlockState state, Random rand) {
-		if(w.isRainingAt(bp) && rand.nextInt(10) < 3) {
-			//Ok so this is the downside of the fireplace ones. They... go out!
+		if(state.getValue(WELL_MADE_AND_LIT) && w.isRaining()) {
 			w.setBlockState(bp, state.withProperty(WELL_MADE_AND_LIT, false));
 			return;
 		}
 		
-		
 		if(w.getGameRules().getBoolean("doFireTick")) {
-			//it's lit fam
-			
+			//todo it's lit fam
 		}
 	}
 	

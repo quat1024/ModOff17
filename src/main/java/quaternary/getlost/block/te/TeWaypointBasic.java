@@ -3,11 +3,11 @@ package quaternary.getlost.block.te;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import quaternary.getlost.GetLost;
+import quaternary.getlost.block.BlockWaypointBasic;
 
 public class TeWaypointBasic extends TileEntity implements ITickable {
 	public void update() {
-		
-		if(world.rand.nextInt(10) == 5) {
+		if(world.getBlockState(pos).getValue(BlockWaypointBasic.WELL_MADE_AND_LIT) && world.rand.nextInt(10) == 5) {
 			float offX = world.rand.nextFloat() * 0.1f - 0.05f;
 			float offZ = world.rand.nextFloat() * 0.1f - 0.05f;
 			

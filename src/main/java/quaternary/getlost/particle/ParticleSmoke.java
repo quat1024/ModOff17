@@ -28,7 +28,7 @@ public class ParticleSmoke extends Particle {
 		motionZ = mz;
 		particleScale = MAX_PARTICLE_SCALE;
 		particleAge = 0;
-		particleMaxAge = (int) (rand.nextFloat()*40) + 200;
+		particleMaxAge = (int) (rand.nextFloat()*60) + 300;
 		
 		float brightness = 0.95f - rand.nextFloat() * 0.1f;
 		particleRed = brightness;
