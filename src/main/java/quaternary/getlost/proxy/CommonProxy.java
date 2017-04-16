@@ -10,7 +10,7 @@ public class CommonProxy {
 	
 	//todo extensible to multiple particle types...
 	public void spawnSmokeParticle(World w, double x, double y, double z, double mx, double my, double mz) {
-		//WHO CARES LOLOLOL
+		//"lol what's a smoke particle" - the server
 	}
 	
 }

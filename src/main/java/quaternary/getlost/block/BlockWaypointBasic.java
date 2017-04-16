@@ -3,9 +3,15 @@ package quaternary.getlost.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -19,14 +25,24 @@ import quaternary.getlost.block.te.TeWaypointBasic;
 import java.util.Random;
 
 public class BlockWaypointBasic extends Block implements ITileEntityProvider {
+	
+	public static final PropertyBool WELL_MADE_AND_LIT = PropertyBool.create("well_made_and_lit");
+	
 	public BlockWaypointBasic() {
 		super(Material.WOOD);
-		
+
 		setUnlocalizedName("blockwaypointbasic");
 		setRegistryName("block_waypoint_basic");
 		
 		GameRegistry.register(this);
 		setCreativeTab(GetLost.tab);
+		
+		setDefaultState(blockState.getBaseState().withProperty(WELL_MADE_AND_LIT, false));
+	}
+	
+	@Override
+	public BlockStateContainer createBlockState() {
+		return new BlockStateContainer(this, WELL_MADE_AND_LIT);
 	}
 	
 	@Override
@@ -36,7 +52,13 @@ public class BlockWaypointBasic extends Block implements ITileEntityProvider {
 	
 	@Override
 	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos bp) {
-		return 15;
+		return state.getValue(WELL_MADE_AND_LIT) ? 15 : 0;
+	}
+	
+	@Override
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		worldIn.setBlockState(pos, state.withProperty(WELL_MADE_AND_LIT, !state.getValue(WELL_MADE_AND_LIT)));
+		return true;
 	}
 	
 	@Override
@@ -47,14 +69,16 @@ public class BlockWaypointBasic extends Block implements ITileEntityProvider {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(IBlockState s, World w, BlockPos bp, Random r) {
-		//shit temporary particle code
-		//todo make your own particle
-		//todo move this to tileentity; more particles \:D/
-		
-		//some indicator of time
-		//todo - this increases while paused. is it worth it to use player.ticksExisted?
-		//don't use whatever banners use - it causes tick lag and network latency to affect rendering
-		//which is obviously super silly
-		
+		//todo - smol ember particles? idk
+	}
+	
+	@Override
+	public IBlockState getStateFromMeta(int meta) {
+		return this.getDefaultState().withProperty(WELL_MADE_AND_LIT, meta == 1);
+	}
+	
+	@Override
+	public int getMetaFromState(IBlockState state) {
+		return state.getValue(WELL_MADE_AND_LIT) ? 1 : 0;
 	}
 }

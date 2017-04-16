@@ -59,6 +59,8 @@ public class ParticleSmoke extends Particle {
 		particleAge++;
 		if(particleAge > particleMaxAge) setExpired();
 		
+		//let's just stoled some stuff from the vanilla smoke particles
+		//dont mind me
 		this.setParticleTextureIndex(7 - this.particleAge * 8 / this.particleMaxAge);
 		
 		motionY += 0.004;
