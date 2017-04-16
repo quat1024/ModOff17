@@ -60,21 +60,20 @@ public class ParticleSmoke extends Particle {
 		if(particleAge > particleMaxAge) setExpired();
 		
 		//let's just stoled some stuff from the vanilla smoke particles
-		//dont mind me
+		//dont mind me laaaaa di da
 		this.setParticleTextureIndex(7 - this.particleAge * 8 / this.particleMaxAge);
 		
 		motionY += 0.004;
-		//todo do I want particles to collide with stuff in the way vanilla particles do?
+		//todo make particles not get "stuck" under trees.
 		move(motionX, motionY, motionZ);
 		
-		//todo make these move in a more interesting pattern than "straight up"
-		
-		float windX = (float) perlin.getValue(0, world.getWorldTime() * 0.05);
-		float windZ = (float) perlin.getValue(123, 45 + (world.getWorldTime()*0.055));
+		float windX = (float) perlin.getValue(0, world.getWorldTime() * 0.04);
+		float windZ = (float) perlin.getValue(123, 4500 + (world.getWorldTime()*0.041));
 		
 		//this is a super subtle effect
-		motionX += windX * 0.0005;
-		motionZ += windZ * 0.0005;
+		//so it needs a smol number
+		motionX += windX * 0.0007;
+		motionZ += windZ * 0.0007;
 		
 		motionX *= 0.98;
 		motionZ *= 0.98;

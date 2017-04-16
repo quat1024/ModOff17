@@ -1,15 +1,10 @@
 package quaternary.getlost.block.te;
 
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
 import quaternary.getlost.GetLost;
-import quaternary.getlost.particle.ParticleSmoke;
-
-import java.util.Random;
 
 public class TeWaypointBasic extends TileEntity implements ITickable {
-	
 	public void update() {
 		
 		if(world.rand.nextInt(10) == 5) {

@@ -1,18 +1,17 @@
 package quaternary.getlost.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockFire;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -38,12 +37,12 @@ public class BlockWaypointBasic extends Block implements ITileEntityProvider {
 		setCreativeTab(GetLost.tab);
 		
 		setDefaultState(blockState.getBaseState().withProperty(WELL_MADE_AND_LIT, false));
+		
+		setTickRandomly(true); //lights things on fire!
+		//todo: config?
 	}
 	
-	@Override
-	public BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, WELL_MADE_AND_LIT);
-	}
+	
 	
 	@Override
 	public boolean isFullCube(IBlockState whocares) {
@@ -55,6 +54,7 @@ public class BlockWaypointBasic extends Block implements ITileEntityProvider {
 		return state.getValue(WELL_MADE_AND_LIT) ? 15 : 0;
 	}
 	
+	//todo: flint and steel.
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		worldIn.setBlockState(pos, state.withProperty(WELL_MADE_AND_LIT, !state.getValue(WELL_MADE_AND_LIT)));
@@ -66,10 +66,34 @@ public class BlockWaypointBasic extends Block implements ITileEntityProvider {
 		return new TeWaypointBasic();
 	}
 	
+	//Random Tick Shenanigans
+	
+	@Override
+	public void updateTick(World w, BlockPos bp, IBlockState state, Random rand) {
+		if(w.isRainingAt(bp) && rand.nextInt(10) < 3) {
+			//Ok so this is the downside of the fireplace ones. They... go out!
+			w.setBlockState(bp, state.withProperty(WELL_MADE_AND_LIT, false));
+			return;
+		}
+		
+		
+		if(w.getGameRules().getBoolean("doFireTick")) {
+			//it's lit fam
+			
+		}
+	}
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(IBlockState s, World w, BlockPos bp, Random r) {
 		//todo - smol ember particles? idk
+	}
+	
+	//Blockstate Shenanigans
+	
+	@Override
+	public BlockStateContainer createBlockState() {
+		return new BlockStateContainer(this, WELL_MADE_AND_LIT);
 	}
 	
 	@Override
