@@ -13,6 +13,7 @@ import quaternary.getlost.block.te.ModTes;
 import quaternary.getlost.item.ModItems;
 import quaternary.getlost.misc.GetLostCreativeTab;
 import quaternary.getlost.proxy.CommonProxy;
+import quaternary.getlost.recipe.ModRecipes;
 
 @Mod(modid = GetLost.MODID, version = GetLost.VERSION)
 public class GetLost {
@@ -34,6 +35,7 @@ public class GetLost {
 		ModItems.doTheThing();
 		ModTes.doTheThing();
 		ModBlocks.doTheThing();
+		ModRecipes.doTheThing();
 	}
 	
 	@EventHandler

@@ -12,7 +12,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.scoreboard.IScoreCriteria;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -45,6 +47,11 @@ public class BlockWaypointBasic extends Block implements ITileEntityProvider {
 		setTickRandomly(true); //lights things on fire!
 		//todo: config?
 	}
+	
+	//Set this block to use only a TESR
+	public EnumBlockRenderType getRenderType(IBlockState state) { return EnumBlockRenderType.ENTITYBLOCK_ANIMATED; }
+	
+	//10/10 code organization. D:
 	
 	public static boolean canBlockStay(World w, BlockPos bp) {
 		IBlockState downState = w.getBlockState(bp.down());
