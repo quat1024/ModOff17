@@ -49,7 +49,9 @@ public class BlockWaypointBasic extends Block implements ITileEntityProvider {
 	}
 	
 	//Set this block to use only a TESR
+	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) { return EnumBlockRenderType.ENTITYBLOCK_ANIMATED; }
+	
 	
 	//10/10 code organization. D:
 	
@@ -72,6 +74,9 @@ public class BlockWaypointBasic extends Block implements ITileEntityProvider {
 	
 	@Override
 	public boolean isFullCube(IBlockState whocares) {
+		return false;
+	}
+	public boolean isOpaqueCube(IBlockState whocares) {
 		return false;
 	}
 	

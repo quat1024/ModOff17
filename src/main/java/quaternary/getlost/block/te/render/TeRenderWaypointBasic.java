@@ -8,13 +8,21 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.GL11;
 import quaternary.getlost.block.te.TeWaypointBasic;
 
+import java.util.Random;
+
+import static quaternary.getlost.block.te.render.TERenderingUtils.renderBox;
+
 public class TeRenderWaypointBasic extends TileEntitySpecialRenderer<TeWaypointBasic> {
 	
-	ResourceLocation logSideTex = new ResourceLocation("minecraft:textures/blocks/log_oak.png");
-	ResourceLocation logEndTex = new ResourceLocation("minecraft:textures/blocks/log_oak_top");
+	final ResourceLocation tex = new ResourceLocation("getlost:textures/tesr/fireplace.png");
+	
+	//                                    u1,   v1, u2,   v2
+	final float[] uvLogEnd =  new float[]{0.5f, 0f, 1f,   0.5f};
+	final float[] uvLogSide = new float[]{0f,   0f, 0.5f, 0.5f};
 	
 	//HERE WE GO BITCHES
 	public void renderTileEntityAt(TeWaypointBasic te, double x, double y, double z, float pt, int destroyStage) {
@@ -22,29 +30,37 @@ public class TeRenderWaypointBasic extends TileEntitySpecialRenderer<TeWaypointB
 		Tessellator tessellator = Tessellator.getInstance();
 		VertexBuffer buffer = tessellator.getBuffer();
 		
+		textureManager.bindTexture(tex);
 		
 		GlStateManager.pushMatrix();
 		
-		GlStateManager.translate(x+0.5, y+0.5, z+0.5);
-		textureManager.bindTexture(logSideTex);
-		renderBox(buffer, 0, 0, 0, 1, 1, 1, 0, 0, 16, 16);
+		GlStateManager.translate(x, y, z);
+		//renderBox(buffer, 0, 0, 0, 1, 1, 1, uvLogSide, uvLogEnd, uvLogSide, uvLogEnd, uvLogSide, uvLogSide);
+		renderRotatedCenteredBox(buffer, 0.7f, 0.3f, 0.7f, 1f, 0.1f, 0.1f, 30, new float[][]{uvLogSide, uvLogEnd, uvLogSide, uvLogEnd, uvLogSide, uvLogSide});
 		tessellator.draw();
+		
 		GlStateManager.popMatrix();
 	}
 	
-	void renderBox(VertexBuffer buffer, float x1, float y1, float z1, float x2, float y2, float z2, float u1, float v1, float u2, float v2) {
+	public void renderRotatedCenteredBox(VertexBuffer buffer, float x, float y, float z, float width, float height, float length, float spin, float[][] uvs) {
+		float halfWidth =  width/2;
+		float halfHeight = height/2;
+		float halfLength = length/2;
 		
-		buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR_NORMAL);
+		GlStateManager.pushMatrix();
 		
-		//z1
-		buffer.pos(x1, y1, z1).tex(u1, v1).color(255,255,255,0).endVertex();
-		buffer.pos(x1, y2, z1).tex(u1, v2).color(255,255,255,0).endVertex();
-		buffer.pos(x2, y2, z1).tex(u2, v2).color(255,255,255,255).endVertex();
-		buffer.pos(x2, y1, z1).tex(u2, v1).color(255,255,255,255).endVertex();
+		//Everything I do here is just ignored
+		//todo what the FUCK is opengl
+		GlStateManager.translate(x + halfWidth, y + halfHeight, z + halfLength);
+		GlStateManager.rotate(spin, 1, 0, 0);
+		GlStateManager.translate(-halfWidth, -halfHeight, -halfLength);
+		
+		
+		renderBox(buffer, -halfWidth, -halfHeight, -halfLength, halfWidth, halfHeight, halfLength, uvs);
+		
+		GlStateManager.popMatrix();
 	}
 	
-	//always do the rendering, even past 64 blocks
-	//todo is this needed for the smoke particles?
 	public boolean isGlobalRenderer(TeWaypointBasic te) {
 		return true;
 	}
