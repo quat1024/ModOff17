@@ -15,7 +15,7 @@ public class TeWaypointBasic extends TileEntity implements ITickable {
 			float initialvy = (world.rand.nextFloat() * 0.04f) + 0.04f;
 			float initialvz = (world.rand.nextFloat() * 0.04f) - 0.02f;
 			
-			GetLost.proxy.spawnSmokeParticle(world, pos.getX() + offX + 0.5, pos.getY() + 1, pos.getZ() + offZ + 0.5, initialvx, initialvy, initialvz);
+			GetLost.proxy.spawnSmokeParticle(world, pos.getX() + offX + 0.5, pos.getY() + 0.7, pos.getZ() + offZ + 0.5, initialvx, initialvy, initialvz);
 		}
 	}
 	

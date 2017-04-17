@@ -20,9 +20,12 @@ public class TeRenderWaypointBasic extends TileEntitySpecialRenderer<TeWaypointB
 	
 	final ResourceLocation tex = new ResourceLocation("getlost:textures/tesr/fireplace.png");
 	
-	//                                    u1,   v1, u2,   v2
-	final float[] uvLogEnd =  new float[]{0.5f, 0f, 1f,   0.5f};
-	final float[] uvLogSide = new float[]{0f,   0f, 0.5f, 0.5f};
+	//                                    u1,   v1,   u2, v2
+	final float[] uvLogEnd =  new float[]{0.5f, 0.5f, 1f, 1f  };
+	final float[] uvLogSide = new float[]{0f,   0f,   1f, 0.5f};
+	final float[] uvLogSide2 = new float[]{0f, 0.5f, 1f, 0f};
+	
+	final float[][] uvsLog = new float[][]{uvLogSide, uvLogEnd, uvLogSide, uvLogEnd, uvLogSide, uvLogSide};
 	
 	//HERE WE GO BITCHES
 	public void renderTileEntityAt(TeWaypointBasic te, double x, double y, double z, float pt, int destroyStage) {
@@ -34,29 +37,34 @@ public class TeRenderWaypointBasic extends TileEntitySpecialRenderer<TeWaypointB
 		
 		GlStateManager.pushMatrix();
 		
-		GlStateManager.translate(x, y, z);
-		//renderBox(buffer, 0, 0, 0, 1, 1, 1, uvLogSide, uvLogEnd, uvLogSide, uvLogEnd, uvLogSide, uvLogSide);
-		renderRotatedCenteredBox(buffer, 0.7f, 0.3f, 0.7f, 1f, 0.1f, 0.1f, 30, new float[][]{uvLogSide, uvLogEnd, uvLogSide, uvLogEnd, uvLogSide, uvLogSide});
-		tessellator.draw();
+		GlStateManager.translate(x + 0.5, y, z + 0.5);
+		
+		GlStateManager.rotate(20, 0, 1, 0);
+		
+		renderCenteredBox(buffer, tessellator, 0f, 0.125f, 0.25f,  1f, 0.25f, 0.25f, uvsLog);
+		renderCenteredBox(buffer, tessellator, 0f, 0.125f, -0.25f, 1f, 0.25f, 0.25f, uvsLog);
+		
+		GlStateManager.rotate(90, 0, 1, 0);
+		
+		renderCenteredBox(buffer, tessellator, 0f,  0.325f, 0.25f, 1f, 0.25f, 0.25f, uvsLog);
+		renderCenteredBox(buffer, tessellator, 0f, 0.325f, -0.25f, 1f, 0.25f, 0.25f, uvsLog);
+		
+		
 		
 		GlStateManager.popMatrix();
 	}
 	
-	public void renderRotatedCenteredBox(VertexBuffer buffer, float x, float y, float z, float width, float height, float length, float spin, float[][] uvs) {
-		float halfWidth =  width/2;
+	public static void renderCenteredBox(VertexBuffer buffer, Tessellator t, float x, float y, float z, float width, float height, float length, float[][] uvs) {
+		float halfWidth  = width/2;
 		float halfHeight = height/2;
 		float halfLength = length/2;
 		
 		GlStateManager.pushMatrix();
+		GlStateManager.translate(x, y, z);
 		
-		//Everything I do here is just ignored
-		//todo what the FUCK is opengl
-		GlStateManager.translate(x + halfWidth, y + halfHeight, z + halfLength);
-		GlStateManager.rotate(spin, 1, 0, 0);
-		GlStateManager.translate(-halfWidth, -halfHeight, -halfLength);
-		
-		
+		buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR_NORMAL);
 		renderBox(buffer, -halfWidth, -halfHeight, -halfLength, halfWidth, halfHeight, halfLength, uvs);
+		t.draw();
 		
 		GlStateManager.popMatrix();
 	}

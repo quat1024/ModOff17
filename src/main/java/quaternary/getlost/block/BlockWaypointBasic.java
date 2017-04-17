@@ -17,6 +17,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -32,6 +33,7 @@ import java.util.Random;
 public class BlockWaypointBasic extends Block implements ITileEntityProvider {
 	
 	public static final PropertyBool WELL_MADE_AND_LIT = PropertyBool.create("well_made_and_lit");
+	public static final AxisAlignedBB AABB = new AxisAlignedBB(0d, 0d, 0d, 1d, 0.5d, 1d);
 	
 	public BlockWaypointBasic() {
 		super(Material.WOOD);
@@ -52,12 +54,17 @@ public class BlockWaypointBasic extends Block implements ITileEntityProvider {
 	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) { return EnumBlockRenderType.ENTITYBLOCK_ANIMATED; }
 	
-	
+	@Override
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess iDontCare, BlockPos asdasdasd) {
+		return AABB;
+	}
+					
+					
 	//10/10 code organization. D:
 	
 	public static boolean canBlockStay(World w, BlockPos bp) {
 		IBlockState downState = w.getBlockState(bp.down());
-		return downState.isFullCube() && downState.isOpaqueCube();
+		return downState.isFullCube() && downState.isOpaqueCube() && (downState.getMaterial() != Material.PLANTS);
 	}
 	
 	@Override

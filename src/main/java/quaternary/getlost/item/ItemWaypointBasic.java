@@ -55,15 +55,11 @@ public class ItemWaypointBasic extends Item {
 		//some helpers for the below...
 		IBlockState targetState = w.getBlockState(placePosition);
 		Block targetBlock = targetState.getBlock();
-		IBlockState baseState = w.getBlockState(placePosition.down());
-		Material baseMaterial = baseState.getMaterial();
 		
 		//check we're not replacing something that shouldn't be (like a fence)
 		if(!targetBlock.isReplaceable(w, placePosition)) return EnumActionResult.PASS;
 		//check it won't pop off on a block update
 		if(!BlockWaypointBasic.canBlockStay(w, placePosition)) return EnumActionResult.PASS;
-		//make sure it's not on like, a flower
-		if(baseMaterial == Material.PLANTS) return EnumActionResult.PASS;
 		
 		//we gucci fam lesgo
 		//place the waypoint

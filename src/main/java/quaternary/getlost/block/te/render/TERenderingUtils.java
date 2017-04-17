@@ -17,7 +17,7 @@ public class TERenderingUtils {
 	//I HAVE EVER WRITTEN
 	//IN MY WHOLE LIFE
 	public static void renderBox(VertexBuffer buffer, float x1, float y1, float z1, float x2, float y2, float z2, float[] uvNorth, float[] uvEast, float[] uvSouth, float[] uvWest, float[] uvTop, float[] uvBottom) {
-		buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR_NORMAL);
+		
 		
 		//North facing negative Z
 		buffer.pos(x1, y1, z1).tex(uvNorth[U1], uvNorth[V1]).color(255, 255, 255, 255).normal(0, 0, -1).endVertex();
