@@ -23,9 +23,9 @@ public class TeRenderWaypointBasic extends TileEntitySpecialRenderer<TeWaypointB
 	//                                    u1,   v1,   u2, v2
 	final float[] uvLogEnd =  new float[]{0.5f, 0.5f, 1f, 1f  };
 	final float[] uvLogSide = new float[]{0f,   0f,   1f, 0.5f};
-	final float[] uvLogSide2 = new float[]{0f, 0.5f, 1f, 0f};
 	
 	final float[][] uvsLog = new float[][]{uvLogSide, uvLogEnd, uvLogSide, uvLogEnd, uvLogSide, uvLogSide};
+	
 	
 	//HERE WE GO BITCHES
 	public void renderTileEntityAt(TeWaypointBasic te, double x, double y, double z, float pt, int destroyStage) {
@@ -35,22 +35,17 @@ public class TeRenderWaypointBasic extends TileEntitySpecialRenderer<TeWaypointB
 		
 		textureManager.bindTexture(tex);
 		
+		//Definitely a random number
+		float theAngle = (te.getPos().getX()*234 + te.getPos().getY()*151 + te.getPos().getZ()*1578) % 360f;
+		
 		GlStateManager.pushMatrix();
-		
 		GlStateManager.translate(x + 0.5, y, z + 0.5);
-		
-		GlStateManager.rotate(20, 0, 1, 0);
-		
+		GlStateManager.rotate(theAngle, 0, 1, 0);
 		renderCenteredBox(buffer, tessellator, 0f, 0.125f, 0.25f,  1f, 0.25f, 0.25f, uvsLog);
 		renderCenteredBox(buffer, tessellator, 0f, 0.125f, -0.25f, 1f, 0.25f, 0.25f, uvsLog);
-		
 		GlStateManager.rotate(90, 0, 1, 0);
-		
 		renderCenteredBox(buffer, tessellator, 0f,  0.325f, 0.25f, 1f, 0.25f, 0.25f, uvsLog);
 		renderCenteredBox(buffer, tessellator, 0f, 0.325f, -0.25f, 1f, 0.25f, 0.25f, uvsLog);
-		
-		
-		
 		GlStateManager.popMatrix();
 	}
 	
@@ -59,14 +54,9 @@ public class TeRenderWaypointBasic extends TileEntitySpecialRenderer<TeWaypointB
 		float halfHeight = height/2;
 		float halfLength = length/2;
 		
-		GlStateManager.pushMatrix();
-		GlStateManager.translate(x, y, z);
-		
 		buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR_NORMAL);
-		renderBox(buffer, -halfWidth, -halfHeight, -halfLength, halfWidth, halfHeight, halfLength, uvs);
+		renderBox(buffer, x-halfWidth, y-halfHeight, z-halfLength, x+halfWidth, y+halfHeight, z+halfLength, uvs);
 		t.draw();
-		
-		GlStateManager.popMatrix();
 	}
 	
 	public boolean isGlobalRenderer(TeWaypointBasic te) {

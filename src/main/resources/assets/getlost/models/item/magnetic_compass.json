@@ -1,0 +1,41 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "items/compass_16"
+  },
+  "overrides": [
+    { "predicate": { "angle": 0 }, "model": "item/compass" },
+    { "predicate": { "angle": 11 }, "model": "item/compass_17" },
+    { "predicate": { "angle": 22 }, "model": "item/compass_18" },
+    { "predicate": { "angle": 33 }, "model": "item/compass_19" },
+    { "predicate": { "angle": 45 }, "model": "item/compass_20" },
+    { "predicate": { "angle": 56 }, "model": "item/compass_21" },
+    { "predicate": { "angle": 67 }, "model": "item/compass_22" },
+    { "predicate": { "angle": 78 }, "model": "item/compass_23" },
+    { "predicate": { "angle": 90 }, "model": "item/compass_24" },
+    { "predicate": { "angle": 101 }, "model": "item/compass_25" },
+    { "predicate": { "angle": 112 }, "model": "item/compass_26" },
+    { "predicate": { "angle": 123 }, "model": "item/compass_27" },
+    { "predicate": { "angle": 135 }, "model": "item/compass_28" },
+    { "predicate": { "angle": 146 }, "model": "item/compass_29" },
+    { "predicate": { "angle": 157 }, "model": "item/compass_30" },
+    { "predicate": { "angle": 168 }, "model": "item/compass_31" },
+    { "predicate": { "angle": 180 }, "model": "item/compass_00" },
+    { "predicate": { "angle": 191 }, "model": "item/compass_01" },
+    { "predicate": { "angle": 202 }, "model": "item/compass_02" },
+    { "predicate": { "angle": 213 }, "model": "item/compass_03" },
+    { "predicate": { "angle": 225 }, "model": "item/compass_04" },
+    { "predicate": { "angle": 236 }, "model": "item/compass_05" },
+    { "predicate": { "angle": 247 }, "model": "item/compass_06" },
+    { "predicate": { "angle": 258 }, "model": "item/compass_07" },
+    { "predicate": { "angle": 270 }, "model": "item/compass_08" },
+    { "predicate": { "angle": 281 }, "model": "item/compass_09" },
+    { "predicate": { "angle": 292 }, "model": "item/compass_10" },
+    { "predicate": { "angle": 303 }, "model": "item/compass_11" },
+    { "predicate": { "angle": 315 }, "model": "item/compass_12" },
+    { "predicate": { "angle": 326 }, "model": "item/compass_13" },
+    { "predicate": { "angle": 337 }, "model": "item/compass_14" },
+    { "predicate": { "angle": 348 }, "model": "item/compass_15" },
+    { "predicate": { "angle": 360 }, "model": "item/compass" }
+  ]
+}

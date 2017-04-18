@@ -24,7 +24,7 @@ import quaternary.getlost.block.ModBlocks;
 public class ItemWaypointBasic extends Item {
 	
 	public ItemWaypointBasic() {
-		setUnlocalizedName("itemwaypointbasic");
+		setUnlocalizedName("item_waypoint_basic");
 		setRegistryName("item_waypoint_basic");
 		GameRegistry.register(this);
 		
